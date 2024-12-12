@@ -9,7 +9,10 @@ const config = {
 };
 
 // const API_URL = "http://172.28.117.95:5000/api"; 
-const API_URL = "http://localhost:5000/api";
+// const API_URL = "http://localhost:5000/api";
+const API_URL = "https://cmartshopbe.onrender.com/api";
+
+
 // đăng nhập / đăng ký / xác thực người dùng
 
 //đăng kí
@@ -22,70 +25,70 @@ export const postRegister = async (data) => {
     throw error; // Ném lỗi để có thể xử lý ở nơi gọi hàm
   }
 };
-  //xác minh email
-  export const verifyOTP = async (data) => {
-  
-    return new Promise((reject, resolve) => {
-      axios.post(`${API_URL}/auth/verify-otp`, data, config)
-        .then(res => {
-          reject(res);
-        })
-        .catch(err => {
-          resolve(err)
-        })
-    })
-  
+//xác minh email
+export const verifyOTP = async (data) => {
+
+  return new Promise((reject, resolve) => {
+    axios.post(`${API_URL}/auth/verify-otp`, data, config)
+      .then(res => {
+        reject(res);
+      })
+      .catch(err => {
+        resolve(err)
+      })
+  })
+
+}
+export const resendOTP = async ({ email }) => {
+  try {
+    const response = await axios.post(`${API_URL}/auth/resend-otp`, { email });
+    return response;
+  } catch (error) {
+    console.error('Error sending OTP:', error);
+    throw error; // Để các phần khác có thể xử lý lỗi nếu cần
   }
-  export const resendOTP = async ({ email }) => {
-    try {
-      const response = await axios.post(`${API_URL}/auth/resend-otp`, { email });
-      return response;
-    } catch (error) {
-      console.error('Error sending OTP:', error);
-      throw error; // Để các phần khác có thể xử lý lỗi nếu cần
-    }
-  };
-  //đăng nhập
-  export const postLogin = async (data) => {
-    return new Promise((resolve, reject) => {
-      axios.post(`${API_URL}/auth/login`, data, config)
-        .then(res => {
-          resolve(res); // Gọi `resolve` khi thành công
-        })
-        .catch(err => {
-          reject(err); // Gọi `reject` khi thất bại
-        });
-    });
-  };
-  
-  //token và session
-  export const removeCookie = async () => {
-    try {
-      const response = await axios.get(`${API_URL}/auth/removeCookie`, config);
-      return response; 
-    } catch (error) {
-      throw error; 
-    }
+};
+//đăng nhập
+export const postLogin = async (data) => {
+  return new Promise((resolve, reject) => {
+    axios.post(`${API_URL}/auth/login`, data, config)
+      .then(res => {
+        resolve(res); // Gọi `resolve` khi thành công
+      })
+      .catch(err => {
+        reject(err); // Gọi `reject` khi thất bại
+      });
+  });
+};
+
+//token và session
+export const removeCookie = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/auth/removeCookie`, config);
+    return response;
+  } catch (error) {
+    throw error;
   }
-  
-  export const removeToken = async () => {
-    try {
-      const response = await axios.get(`${API_URL}/auth/removeToken`, config);
-      return response; 
-    } catch (error) {
-      throw error; 
-    }
-  };
-  
-  export const getToken = async () => {
-    try {
-      const response = await axios.get(`${API_URL}/auth/getToken`, config);
-      return response; 
-    } catch (error) {
-      throw error; 
-    }
+}
+
+export const removeToken = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/auth/removeToken`, config);
+    return response;
+  } catch (error) {
+    throw error;
   }
-  // Sản phẩm API
+};
+
+export const getToken = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/auth/getToken`, config);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+// Sản phẩm API
 
 // Tạo sản phẩm mới
 export const createProduct = async (productData) => {
@@ -110,7 +113,7 @@ export const getAllProducts = async () => {
 };
 export const getProductByCode = async (code) => {
   try {
-    const response = await axios.get(`${API_URL}/products/code/${code}`, config); 
+    const response = await axios.get(`${API_URL}/products/code/${code}`, config);
     return response.data; // Trả về dữ liệu sản phẩm
   } catch (error) {
     console.error('Error fetching product by code:', error); // Ghi log lỗi
@@ -167,12 +170,12 @@ export const deleteProduct = async (id) => {
 // cập nhật trạng thái
 export const updateProductStatus = async (id, newStatus) => {
   try {
-      const response = await axios.put(`${API_URL}/products/status/${id}`, {
-          isAvailable: newStatus, 
-      });
-      console.log('Cập nhật trạng thái thành công:', response.data);
+    const response = await axios.put(`${API_URL}/products/status/${id}`, {
+      isAvailable: newStatus,
+    });
+    console.log('Cập nhật trạng thái thành công:', response.data);
   } catch (error) {
-      console.error('Lỗi khi cập nhật:', error.response?.data?.message || error.message);
+    console.error('Lỗi khi cập nhật:', error.response?.data?.message || error.message);
   }
 };
 
@@ -212,7 +215,7 @@ export const changePassword = async (userId, oldPassword, newPassword) => {
 export const getAllUsers = async () => {
   try {
     const response = await axios.get(`${API_URL}/auth/all-user`, config);
-    return response.data.users; 
+    return response.data.users;
   } catch (error) {
     console.error('Lỗi khi lấy danh sách người dùng:', error);
     throw error; // Ném lỗi để xử lý ở nơi khác
@@ -223,7 +226,7 @@ export const getAllUsers = async () => {
 export const updateUserRole = async (userId, newRole) => {
   try {
     const response = await axios.patch(`${API_URL}/auth/users/update-role/${userId}`, { role: newRole });
-    return response.data; 
+    return response.data;
   } catch (error) {
     console.error('Lỗi khi cập nhật vai trò:', error);
     throw error;
@@ -294,18 +297,18 @@ export const getAllWarehouse = async () => {
 // Hàm lấy sản phẩm theo nhà cung cấp
 export const getProductsBySupplier = async (supplierId) => {
   try {
-      const response = await axios.get(`${API_URL}/warehouses/supplier/${supplierId}`, config);
-      console.log('Dữ liệu trả về từ API:', response.data); 
-      // Kiểm tra xem có thuộc tính products hay không
-      if (response.data.products && Array.isArray(response.data.products)) {
-          return response.data.products; 
-      } else {
-          console.error('Dữ liệu không phải là mảng:', response.data);
-          return []; 
-      }
+    const response = await axios.get(`${API_URL}/warehouses/supplier/${supplierId}`, config);
+    console.log('Dữ liệu trả về từ API:', response.data);
+    // Kiểm tra xem có thuộc tính products hay không
+    if (response.data.products && Array.isArray(response.data.products)) {
+      return response.data.products;
+    } else {
+      console.error('Dữ liệu không phải là mảng:', response.data);
+      return [];
+    }
   } catch (error) {
-      console.error('Lỗi khi lấy sản phẩm:', error); 
-      throw error; 
+    console.error('Lỗi khi lấy sản phẩm:', error);
+    throw error;
   }
 };
 
@@ -313,10 +316,10 @@ export const getProductsBySupplier = async (supplierId) => {
 // Hàm tạo phiếu nhập kho
 export const createWarehouseEntry = async (entryData) => {
   try {
-      const response = await axios.post(`${API_URL}/warehouses/add`, entryData);
-      return response.data; // Trả về kết quả từ API
+    const response = await axios.post(`${API_URL}/warehouses/add`, entryData);
+    return response.data; // Trả về kết quả từ API
   } catch (error) {
-      throw error; 
+    throw error;
   }
 };
 
@@ -324,13 +327,13 @@ export const createWarehouseEntry = async (entryData) => {
 
 
 // Tạo mới ncc
-export const addToCartForUser = async (userId,productId,quantity,currentPrice,unit, unitValue ) => {
+export const addToCartForUser = async (userId, productId, quantity, currentPrice, unit, unitValue) => {
   try {
     const response = await axios.post(`${API_URL}/cart/add`, {
       userId,
       productId,
       quantity,
-      currentPrice, 
+      currentPrice,
       unit, // Bổ sung unit vào request body
       unitValue, // Bổ sung unitValue vào request body
     });
@@ -341,15 +344,15 @@ export const addToCartForUser = async (userId,productId,quantity,currentPrice,un
   }
 };
 // Hàm thêm sản phẩm vào giỏ hàng
-export const getAddToCart = async (userId, productId, quantity,currentPrice ) => {
+export const getAddToCart = async (userId, productId, quantity, currentPrice) => {
   try {
     const response = await axios.post(`${API_URL}/cart/add`, {
       userId,
       productId,
       quantity,
-      currentPrice 
+      currentPrice
     });
-    return response.data; 
+    return response.data;
   } catch (error) {
     console.error('Lỗi khi thêm sản phẩm vào giỏ hàng:', error);
     throw error;
@@ -359,7 +362,7 @@ export const getAddToCart = async (userId, productId, quantity,currentPrice ) =>
 // Lấy tất cả sản phẩm
 export const getAllCart = async (userId) => {
   try {
-    const response = await axios.get(`${API_URL}/cart?userId=${userId}`, config); 
+    const response = await axios.get(`${API_URL}/cart?userId=${userId}`, config);
     return response.data;
   } catch (error) {
     throw error;
@@ -368,7 +371,7 @@ export const getAllCart = async (userId) => {
 //lấy toàn bộ sp trừ thằng đg chờ thanh toán
 export const getAllCartPending = async () => {
   try {
-    const response = await axios.get(`${API_URL}/cart/allpending`, config); 
+    const response = await axios.get(`${API_URL}/cart/allpending`, config);
     return response.data;
   } catch (error) {
     throw error;
@@ -413,7 +416,7 @@ export const updateCart = async (cartId, status, userId) => {//userID là id ng�
   try {
     console.log('Thông tin gửi đến:', { cartId, status, userId });
     const response = await axios.put(`${API_URL}/cart/update`, { cartId, status, userId }, config);
-    return response.data; 
+    return response.data;
   } catch (error) {
     console.error('Lỗi khi cập nhật giỏ hàng:', error);
     throw error;
@@ -424,7 +427,7 @@ export const updateCart = async (cartId, status, userId) => {//userID là id ng�
 export const removeFromCart = async (cartId, productId) => {
   try {
     const response = await axios.delete(`${API_URL}/cart/remove`, {
-      data: { cartId, productId }, 
+      data: { cartId, productId },
       ...config
     });
     return response.data;
@@ -473,7 +476,7 @@ export const updateBillStatusOnl = async (billId, action) => {
     return response.data; // Phản hồi thành công từ Backend
   } catch (error) {
     console.error("Lỗi khi cập nhật trạng thái hóa đơn:", error.response?.data || error.message);
-    throw error; 
+    throw error;
   }
 };
 
@@ -572,7 +575,7 @@ export const createDirectSaleBill = async ({
 //lấy toàn bộ bill của người dùng
 export const getAllBills = async () => {
   try {
-    const response = await axios.get(`${API_URL}/bill/all`); 
+    const response = await axios.get(`${API_URL}/bill/all`);
     return response.data;
   } catch (error) {
     console.error('Lỗi khi lấy danh sách tất cả hóa đơn:', error);
@@ -593,21 +596,21 @@ export const getBillsByUser = async (userId) => {
 //bill hàng mua trực tiếp ở quầy
 export const getBillOffline = async () => {
   try {
-    const response = await axios.get(`${API_URL}/bill/offline`); 
+    const response = await axios.get(`${API_URL}/bill/offline`);
     return response.data;
   } catch (error) {
     console.error('Lỗi khi lấy hóa đơn offline:', error);
-    throw error; 
+    throw error;
   }
 };
 //bill hàng mua onl 
 export const getBillOnline = async () => {
   try {
-    const response = await axios.get(`${API_URL}/bill/online`); 
+    const response = await axios.get(`${API_URL}/bill/online`);
     return response.data;
   } catch (error) {
     console.error('Lỗi khi lấy hóa đơn offline:', error);
-    throw error; 
+    throw error;
   }
 };
 
@@ -649,7 +652,7 @@ export const updateBillStatus = async (billId, status) => {
 export const getCategories = async () => {
   try {
     const response = await axios.get(`${API_URL}/categories`, config);
-    return response.data; 
+    return response.data;
   } catch (error) {
     console.error('Lỗi khi lấy danh sách danh mục:', error);
     throw error;
@@ -659,7 +662,7 @@ export const getCategories = async () => {
 export const addCategory = async (categoryData) => {
   try {
     const response = await axios.post(`${API_URL}/categories/add`, categoryData, config);
-    return response.data; 
+    return response.data;
   } catch (error) {
     console.error('Lỗi khi thêm danh mục:', error);
     throw error;
@@ -669,7 +672,7 @@ export const addCategory = async (categoryData) => {
 export const updateCategory = async (categoryId, categoryData) => {
   try {
     const response = await axios.patch(`${API_URL}/categories/${categoryId}`, categoryData, config);
-    return response.data; 
+    return response.data;
   } catch (error) {
     console.error('Lỗi khi cập nhật danh mục:', error);
     throw error;
@@ -679,7 +682,7 @@ export const updateCategory = async (categoryId, categoryData) => {
 export const deleteCategory = async (categoryId) => {
   try {
     const response = await axios.delete(`${API_URL}/categories/${categoryId}`, config);
-    return response.data; 
+    return response.data;
   } catch (error) {
     console.error('Lỗi khi xóa danh mục:', error);
     throw error;
@@ -690,7 +693,7 @@ export const deleteCategory = async (categoryId) => {
 export const addUnit = async (unitData) => {
   try {
     const response = await axios.post(`${API_URL}/units`, unitData, config);
-    return response.data; 
+    return response.data;
   } catch (error) {
     console.error('Lỗi khi thêm đơn vị tính:', error);
     throw error;
@@ -701,7 +704,7 @@ export const addUnit = async (unitData) => {
 export const getUnits = async () => {
   try {
     const response = await axios.get(`${API_URL}/units`, config);
-    return response.data; 
+    return response.data;
   } catch (error) {
     console.error('Lỗi khi lấy danh sách đơn vị tính:', error);
     throw error;
@@ -712,7 +715,7 @@ export const getUnits = async () => {
 export const updateUnit = async (unitId, unitData) => {
   try {
     const response = await axios.put(`${API_URL}/units/${unitId}`, unitData, config);
-    return response.data; 
+    return response.data;
   } catch (error) {
     console.error('Lỗi khi cập nhật đơn vị tính:', error);
     throw error;
@@ -723,7 +726,7 @@ export const updateUnit = async (unitId, unitData) => {
 export const deleteUnit = async (unitId) => {
   try {
     const response = await axios.delete(`${API_URL}/units/${unitId}`, config);
-    return response.data; 
+    return response.data;
   } catch (error) {
     console.error('Lỗi khi xóa đơn vị tính:', error);
     throw error;
@@ -736,17 +739,17 @@ export const addWarehouseEntry = async (warehouseEntryData) => {
     return response.data; // Trả về dữ liệu từ phản hồi
   } catch (error) {
     console.error('Lỗi khi nhập hàng:', error.response?.data || error.message);
-    throw error; 
+    throw error;
   }
 };
 //chương trình khuyến mãi
 export const addPromotion = async (promotionData) => {
   try {
     const response = await axios.post(`${API_URL}/promotions`, promotionData, config);
-    return response.data; 
+    return response.data;
   } catch (error) {
     console.error('Lỗi khi thêm chương trình khuyến mãi:', error.response?.data || error.message);
-    throw error; 
+    throw error;
   }
 };
 // Hàm lấy danh sách chương trình khuyến mãi
@@ -756,24 +759,24 @@ export const getPromotions = async () => {
     return response.data;
   } catch (error) {
     console.error('Lỗi khi lấy danh sách chương trình khuyến mãi:', error.response?.data || error.message);
-    throw error; 
+    throw error;
   }
 };
 // Hàm cập nhật chương trình khuyến mãi
 export const updatePromotion = async (promotionId, promotionData) => {
   try {
     const response = await axios.put(`${API_URL}/promotions/${promotionId}`, promotionData, config);
-    return response.data; 
+    return response.data;
   } catch (error) {
     console.error(`Lỗi khi cập nhật chương trình khuyến mãi với ID ${promotionId}:`, error.response?.data || error.message);
-    throw error; 
+    throw error;
   }
 };
 // Hàm xóa chương trình khuyến mãi
 export const deletePromotion = async (promotionId) => {
   try {
     const response = await axios.delete(`${API_URL}/promotions/${promotionId}`, config);
-    return response.data; 
+    return response.data;
   } catch (error) {
     console.error(`Lỗi khi xóa chương trình khuyến mãi với ID ${promotionId}:`, error.response?.data || error.message);
     throw error;
