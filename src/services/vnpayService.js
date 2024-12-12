@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Retrieve Backend URL from .env file
 // const VNPAY_URL = "http://localhost:5000/api/vnpay";
-const VNPAY_URL_URL = "https://cmartshopbe.onrender.com/api/vnpay";
+const VNPAY_URL = "https://cmartshopbe.onrender.com/api/vnpay";
 
 // Function to create VNPay payment
 export const createVNPayPayment = async (amount, orderInfo, returnUrl) => {
