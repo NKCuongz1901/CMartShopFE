@@ -1,11 +1,13 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api';
+// const API_URL = 'http://localhost:5000/api';
+const API_URL = "https://cmartshopbe.onrender.com/api";
+
 
 const config = {
     withCredentials: true,
     headers: {
-      Authorization: `Bearer ${localStorage.getItem('token')}`, 
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
     },
 };
 
@@ -13,7 +15,7 @@ const config = {
 export const getAllCustomers = async () => {
     try {
         const response = await axios.get(`${API_URL}/customers/`, config);
-        return response.data; 
+        return response.data;
     } catch (error) {
         console.error("Error fetching active customers:", error);
         throw error;

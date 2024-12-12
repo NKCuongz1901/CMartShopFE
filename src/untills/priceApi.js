@@ -4,18 +4,20 @@ import { getAllProducts } from "./api";
 const config = {
   withCredentials: true,
   headers: {
-    Authorization: `Bearer ${localStorage.getItem('token')}`, 
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
   },
 };
 
 // const API_URL = "http://172.28.117.95:5000/api"; 
-const API_URL = "http://localhost:5000/api";
+// const API_URL = "http://localhost:5000/api";
+const API_URL = "https://cmartshopbe.onrender.com/api";
+
 
 //thêm bảng giá header
 export const createPriceList = async (data) => {
   try {
     const response = await axios.post(`${API_URL}/price-list`, data);
-    return response.data; 
+    return response.data;
   } catch (error) {
     throw new Error(error.response?.data.message || 'Lỗi khi thêm bảng giá');
   }
@@ -25,7 +27,7 @@ export const createPriceList = async (data) => {
 export const getAllPriceLists = async () => {
   try {
     const response = await axios.get(`${API_URL}/price-list`);
-    return response.data; 
+    return response.data;
   } catch (error) {
     throw new Error(error.response?.data.message || 'Lỗi lấy bảng giá');
   }
@@ -33,7 +35,7 @@ export const getAllPriceLists = async () => {
 export const getAllPriceProduct = async () => {
   try {
     const response = await axios.get(`${API_URL}/price-list/priceall`);
-    return response.data; 
+    return response.data;
   } catch (error) {
     throw new Error(error.response?.data.message || 'Lỗi lấy bảng giá');
   }
@@ -42,20 +44,20 @@ export const getAllPriceProduct = async () => {
 export const getProductsWithPrices = async () => {
   try {
     const [productsData, pricesData] = await Promise.all([getAllProducts(), getAllPriceProduct()]);
-    
+
     if (productsData.success && pricesData.success) {
       const productsWithPrices = productsData.products.map(product => {
-          const productPrices = pricesData.prices.find(p => p.productId === product.productId);
-          return {
-              ...product,
-              prices: productPrices ? productPrices.prices : [],
-          };
+        const productPrices = pricesData.prices.find(p => p.productId === product.productId);
+        return {
+          ...product,
+          prices: productPrices ? productPrices.prices : [],
+        };
       });
       return productsWithPrices;
-  } else {
+    } else {
       throw new Error('Lỗi lấy dữ liệu sản phẩm hoặc giá');
-  }
-  
+    }
+
   } catch (error) {
     throw error;
   }
@@ -67,7 +69,7 @@ export const addPricesToPriceList = async (priceListId, products) => {
       priceListId,
       products,
     });
-    return response.data; 
+    return response.data;
   } catch (error) {
     throw new Error(error.response?.data.message || 'Lỗi cập nhập bảng giá');
   }
@@ -90,7 +92,7 @@ export const deletePriceList = async (priceListId) => {
     const response = await axios.delete(`${API_URL}/price-list/delete/${priceListId}`);
     return response.data; // Trả về dữ liệu phản hồi từ API
   } catch (error) {
-    throw new Error(error.response?.data.message || 'Lỗi khi xóa bảng giá'); 
+    throw new Error(error.response?.data.message || 'Lỗi khi xóa bảng giá');
   }
 };
 //cập nhật header bảng giá
@@ -116,7 +118,7 @@ export const deletePriceFromPriceList = async (
     return response.data;
   } catch (error) {
     throw new Error(
-    error.response?.data.message || "Lỗi khi xóa giá khỏi bảng giá"
-  );
-}
+      error.response?.data.message || "Lỗi khi xóa giá khỏi bảng giá"
+    );
+  }
 };

@@ -1,17 +1,19 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api'; 
+// const API_URL = 'http://localhost:5000/api';
+const API_URL = "https://cmartshopbe.onrender.com/api";
+
 const config = {
-    withCredentials: true,
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('token')}`, 
-    },
+  withCredentials: true,
+  headers: {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  },
 };
 
 // API để lấy danh sách nhân viên
 export const getAllEmployee = async () => {
   try {
-    const response = await axios.get(`${API_URL}/employees`, config); 
+    const response = await axios.get(`${API_URL}/employees`, config);
     return response.data;
   } catch (error) {
     console.error('Lỗi khi lấy danh sách nhân viên:', error);
@@ -21,7 +23,7 @@ export const getAllEmployee = async () => {
 // Lấy nhân viên theo ID
 export const getEmployeeById = async (employeeId) => {
   try {
-    const response = await axios.get(`${API_URL}/employees/by/${employeeId}`, config); 
+    const response = await axios.get(`${API_URL}/employees/by/${employeeId}`, config);
     return response.data;
   } catch (error) {
     console.error('Lỗi khi lấy thông tin nhân viên:', error);
@@ -67,11 +69,11 @@ export const updateEmployee = async (employeeId, updateData) => {
 };
 //xác thực nhân viên
 export const verifyEmployeeOtp = async (otpData) => {
-    try {
-      const response = await axios.post(`${API_URL}/employees/verify-otp`, otpData, config); 
-      return response.data; // Kết quả xác minh OTP
-    } catch (error) {
-      console.error('Lỗi khi xác minh OTP:', error);
-      throw new Error('OTP không hợp lệ hoặc đã hết hạn');
-    }
-  };
+  try {
+    const response = await axios.post(`${API_URL}/employees/verify-otp`, otpData, config);
+    return response.data; // Kết quả xác minh OTP
+  } catch (error) {
+    console.error('Lỗi khi xác minh OTP:', error);
+    throw new Error('OTP không hợp lệ hoặc đã hết hạn');
+  }
+};

@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const STATISTICS_API_URL = "http://localhost:5000/api/statistics"; // URL API cho statistics
+// const STATISTICS_API_URL = "http://localhost:5000/api/statistics"; // URL API cho statistics
+const API_URL = "https://cmartshopbe.onrender.com/api/statistics";
 
 // Cấu hình cho axios với token từ localStorage
 const config = {
@@ -73,7 +74,7 @@ export const getVoucherStatistics = async (startDate, endDate, voucherType) => {
 export const getTop5CustomerSpending = async () => {
   try {
     const url = `${STATISTICS_API_URL}/top5customer`;
-    const response = await axios.get(url);  
+    const response = await axios.get(url);
     return response.data;
   } catch (error) {
     console.error("Có lỗi xảy ra khi lấy danh sách top 5 khách hàng:", error);
@@ -83,7 +84,7 @@ export const getTop5CustomerSpending = async () => {
 export const getTop5ProductSpending = async () => {
   try {
     const url = `${STATISTICS_API_URL}/top5product`;
-    const response = await axios.get(url);  
+    const response = await axios.get(url);
     return response.data;
   } catch (error) {
     console.error("Có lỗi xảy ra khi lấy danh sách top 5 khách hàng:", error);

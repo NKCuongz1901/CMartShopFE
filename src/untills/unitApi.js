@@ -3,71 +3,73 @@ import axios from "axios";
 const config = {
   withCredentials: true,
   headers: {
-    Authorization: `Bearer ${localStorage.getItem('token')}`, 
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
   },
 };
 
 // const API_URL = "http://172.28.117.95:5000/api"; 
-const API_URL = "http://localhost:5000/api";
+// const API_URL = "http://localhost:5000/api";
+const API_URL = "https://cmartshopbe.onrender.com/api";
+
 // đăng nhập / đăng ký / xác thực người dùng
 
 // Tạo bảng đơn vị tính
 
 export const createUnitList = async (data) => {
-    try {
-      const response = await axios.post(`${API_URL}/units/unit-headers`, data);
-      return response.data;
-    } catch (error) {
-      console.error('Lỗi khi tạo bảng đơn vị tính:', error.response?.data || error.message);
-      throw error;
-    }
-  };
+  try {
+    const response = await axios.post(`${API_URL}/units/unit-headers`, data);
+    return response.data;
+  } catch (error) {
+    console.error('Lỗi khi tạo bảng đơn vị tính:', error.response?.data || error.message);
+    throw error;
+  }
+};
 
-  export const createUnitLine = async (lineData) => {
-    try {
-      const response = await axios.post(`${API_URL}/units/unit-lines`, lineData);
-      console.log('Tạo dòng đơn vị thành công:', response.data);
-      return response.data;
-    } catch (error) {
-      console.error('Lỗi khi tạo dòng đơn vị:', error.response.data);
-    }
-  };
-  // chi tiết đơn vị 
-  export const createUnitDetail = async (detailData) => {
-    try {
-      const response = await axios.post(`${API_URL}/units/unit-details`, detailData);
-      console.log('Tạo chi tiết đơn vị thành công:', response.data);
-      return response.data;
-    } catch (error) {
-      console.error('Lỗi khi tạo chi tiết đơn vị:', error.response.data);
-    }
-  };
-  export const updateUnitDetail = async (id, detailData) => {
-    try {
-        const response = await axios.put(`${API_URL}/units/crud/details/${id}`, detailData);
-        console.log('Cập nhật chi tiết đơn vị thành công:', response.data);
-        return response.data; // Trả về dữ liệu chi tiết đã cập nhật
-    } catch (error) {
-        console.error('Lỗi khi cập nhật chi tiết đơn vị:', error.response.data);
-        throw error; // Ném lỗi để có thể xử lý ở nơi gọi hàm này
-    }
+export const createUnitLine = async (lineData) => {
+  try {
+    const response = await axios.post(`${API_URL}/units/unit-lines`, lineData);
+    console.log('Tạo dòng đơn vị thành công:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Lỗi khi tạo dòng đơn vị:', error.response.data);
+  }
+};
+// chi tiết đơn vị 
+export const createUnitDetail = async (detailData) => {
+  try {
+    const response = await axios.post(`${API_URL}/units/unit-details`, detailData);
+    console.log('Tạo chi tiết đơn vị thành công:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Lỗi khi tạo chi tiết đơn vị:', error.response.data);
+  }
+};
+export const updateUnitDetail = async (id, detailData) => {
+  try {
+    const response = await axios.put(`${API_URL}/units/crud/details/${id}`, detailData);
+    console.log('Cập nhật chi tiết đơn vị thành công:', response.data);
+    return response.data; // Trả về dữ liệu chi tiết đã cập nhật
+  } catch (error) {
+    console.error('Lỗi khi cập nhật chi tiết đơn vị:', error.response.data);
+    throw error; // Ném lỗi để có thể xử lý ở nơi gọi hàm này
+  }
 };
 
 
 
 export const deleteUnitDetail = async (id) => {
   try {
-      const response = await axios.delete(`${API_URL}/units/crud/details/${id}`);
-      console.log('Xóa chi tiết đơn vị thành công:', response.data);
-      return response.data; // Trả về thông điệp thành công
+    const response = await axios.delete(`${API_URL}/units/crud/details/${id}`);
+    console.log('Xóa chi tiết đơn vị thành công:', response.data);
+    return response.data; // Trả về thông điệp thành công
   } catch (error) {
-      console.error('Lỗi khi xóa chi tiết đơn vị:', error.response.data);
-      throw error; // Ném lỗi để có thể xử lý ở nơi gọi hàm này
+    console.error('Lỗi khi xóa chi tiết đơn vị:', error.response.data);
+    throw error; // Ném lỗi để có thể xử lý ở nơi gọi hàm này
   }
 };
 
 
-  
+
 // Hàm lấy tất cả UnitHeader
 export const getAllUnitHeaders = async () => {
   try {
@@ -106,7 +108,7 @@ export const getAllUnitDetails = async () => {
 
 export const getDetailsByLineId = async (lineId) => {
   try {
-    const response = await axios.get(`${API_URL}/units/crud/lines/${lineId}/details`); 
+    const response = await axios.get(`${API_URL}/units/crud/lines/${lineId}/details`);
     return response.data;
   } catch (error) {
     console.error("Lỗi khi lấy chi tiết theo Line ID:", error);
