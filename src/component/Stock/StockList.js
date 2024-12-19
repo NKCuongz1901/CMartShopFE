@@ -64,7 +64,7 @@ const StockList = () => {
 
   return (
     <div>
-        <Title style={{ fontWeight: 'bold', fontStyle: 'italic' }} level={2}>Quản lí tồn kho</Title>
+      <Title style={{ fontWeight: 'bold', fontStyle: 'italic' }} level={2}>Quản lí tồn kho</Title>
       <div
         style={{
           display: "flex",
@@ -73,7 +73,7 @@ const StockList = () => {
           marginTop: 20,
         }}
       >
-       
+
         <Input
           placeholder="Nhập mã sản phẩm"
           value={searchCode}
@@ -111,14 +111,15 @@ const StockList = () => {
           )}
         />
         <Column title="Đơn vị tính" dataIndex="unit" key="unit" />
-        <Column title="Số lượng tồn" dataIndex="quantity" key="quantity" />
-        <Column title="Đơn vị cơ bản" dataIndex="baseUnitName" key="baseUnitName" />
         <Column
           title="Giá trị quy đổi"
           dataIndex="conversionValue"
           key="conversionValue"
         />
-        <Column title="Tổng số lượng" dataIndex="baseUnitQuantity" key="baseUnitQuantity" />
+        <Column title="Số lượng tồn" dataIndex="quantity" key="quantity" />
+        <Column title="Đơn vị cơ bản" dataIndex="baseUnitName" key="baseUnitName" />
+
+        {/* <Column title="Tổng số lượng" dataIndex="baseUnitQuantity" key="baseUnitQuantity" /> */}
 
       </Table>
     </div>

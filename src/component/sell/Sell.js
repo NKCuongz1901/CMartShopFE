@@ -2000,9 +2000,11 @@ const Sell = () => {
               </tbody>
             </table>
             <div class="total-section">
-              <div><span><strong>Thành tiền:</strong></span> <span>${total.toLocaleString()}đ</span></div>
+              <div><span><strong>Tổng tiền:</strong></span> <span>${total.toLocaleString()}đ</span></div>
               <div><span><strong>Chiết khấu:</strong></span> <span>${discountAmount.toLocaleString()}đ</span></div>
-              <div><span><strong>Tổng cộng:</strong></span> <span>${(
+               <div><span><strong>Tiền thừa:</strong></span> <span>${0}đ</span></div>
+
+              <div><span><strong>Số tiền phải thanh toán:</strong></span> <span>${(
         total - discountAmount
       ).toLocaleString()}đ</span></div>
             </div>
@@ -2428,13 +2430,16 @@ const Sell = () => {
               style={{ padding: "10px", marginTop: "10px", textAlign: "right" }}
             >
               <p>
-                <strong>Thành tiền:</strong> {total.toLocaleString()}đ
+                <strong>Tổng tiền:</strong> {total.toLocaleString()}đ
               </p>
               <p>
                 <strong>Chiết khấu:</strong> {discountAmount.toLocaleString()}đ
               </p>
               <p>
-                <strong>Tổng tiền:</strong>{" "}
+                <strong>Tiền thừa:</strong> {0}đ
+              </p>
+              <p>
+                <strong>Tiền phải thanh toán:</strong>{" "}
                 {(total - discountAmount).toLocaleString()}đ
               </p>
             </div>
