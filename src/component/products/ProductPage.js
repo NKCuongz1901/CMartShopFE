@@ -17,7 +17,7 @@ const ProductPage = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const { user } = useContext(AuthContext);
+
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -61,8 +61,7 @@ const ProductPage = () => {
   };
 
   const handleEditProduct = (record, event) => {
- 
-    event.stopPropagation(); 
+    event.stopPropagation();
     setSelectedProduct(record);
     setIsEditingProduct(true);
   };
@@ -73,7 +72,7 @@ const ProductPage = () => {
   };
 
   const handleDeleteProduct = (productId, event) => {
-    event.stopPropagation(); // Ngăn chặn sự kiện xem chi tiết khi nhấn vào "Xóa"
+    event.stopPropagation();
     Modal.confirm({
       title: "Bạn có chắc chắn muốn xóa sản phẩm này?",
       content: "Hành động này không thể hoàn tác.",
@@ -96,6 +95,62 @@ const ProductPage = () => {
   const handleAddNewProduct = () => {
     setIsAddingProduct(true);
   };
+
+  const columns = [
+    {
+      title: "Mã",
+      dataIndex: "code",
+      key: "code",
+      width: 20,
+      sorter: (a, b) => a.code.localeCompare(b.code)
+    },
+    {
+      title: "Tên sản phẩm",
+      dataIndex: "name",
+      key: "name",
+      width: 120,
+      sorter: (a, b) => a.name.localeCompare(b.name)
+    },
+    {
+      title: "Hình ảnh",
+      dataIndex: "image",
+      key: "image",
+      width: 100,
+      render: (image) => (
+        <img src={image} alt="product" style={{ width: 50, height: 50, objectFit: "cover" }} />
+      ),
+    },
+    {
+      title: "Loại sản phẩm",
+      dataIndex: "category",
+      key: "category",
+      width: 100,
+      render: (categoryId) => {
+        const category = categories.find((cat) => cat._id === categoryId);
+        return category ? category.name : "Không xác định";
+      },
+      sorter: (a, b) => {
+        const categoryA = categories.find((cat) => cat._id === a.category);
+        const categoryB = categories.find((cat) => cat._id === b.category);
+        return (categoryA?.name || "").localeCompare(categoryB?.name || "");
+      }
+    },
+    {
+      title: "Thao tác",
+      key: "action",
+      width: 100,
+      render: (_, record) => (
+        <>
+          <Button icon={<FaEdit />} type="text" onClick={(e) => handleEditProduct(record, e)}>
+            Sửa
+          </Button>
+          <Button icon={<FaTrash />} type="text" danger onClick={(e) => handleDeleteProduct(record.key, e)}>
+            Xóa
+          </Button>
+        </>
+      ),
+    },
+  ];
 
   return (
     <div style={{ marginTop: "20px" }}>
@@ -130,41 +185,7 @@ const ProductPage = () => {
       </div>
 
       <Table
-        columns={[
-          { title: "Mã", dataIndex: "code", key: "code" },
-          { title: "Tên sản phẩm", dataIndex: "name", key: "name" },
-          {
-            title: "Hình ảnh",
-            dataIndex: "image",
-            key: "image",
-            render: (image) => (
-              <img src={image} alt="product" style={{ width: 50, height: 50, objectFit: "cover" }} />
-            ),
-          },
-          {
-            title: "Loại sản phẩm",
-            dataIndex: "category",
-            key: "category",
-            render: (categoryId) => {
-              const category = categories.find((cat) => cat._id === categoryId);
-              return category ? category.name : "Không xác định";
-            },
-          },
-          {
-            title: "Thao tác",
-            key: "action",
-            render: (_, record) => (
-              <>
-                <Button  icon={<FaEdit />} type="text" onClick={(e) => handleEditProduct(record, e)}>
-                  Sửa
-                </Button>
-                <Button icon={<FaTrash />} type="text" danger onClick={(e) => handleDeleteProduct(record.key, e)}>
-                  Xóa
-                </Button>
-              </>
-            ),
-          },
-        ]}
+        columns={columns}
         dataSource={data.filter(
           (item) =>
             item.name && item.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -172,11 +193,16 @@ const ProductPage = () => {
         loading={loading}
         rowKey={(record) => record._id}
         onRow={(record) => ({
-          onClick: () => handleViewProductDetail(record), 
+          onClick: () => handleViewProductDetail(record),
         })}
+        onChange={(pagination, filters, sorter) => {
+          console.log('Various parameters', pagination, filters, sorter);
+          // You can add additional logic here if needed when sorting occurs
+        }}
       />
     </div>
   );
 };
 
 export default ProductPage;
+

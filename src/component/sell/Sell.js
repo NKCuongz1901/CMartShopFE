@@ -2306,26 +2306,6 @@ const Sell = () => {
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
-            {/* <Button
-              variant="primary"
-              size="lg"
-              className="flex-grow-1"
-              onClick={() => {
-                if (paymentMethod === "BankTransfer") {
-                  handleShowCheckoutModal(); // Gọi hàm xử lý chuyển khoản
-                } else {
-                  handleShowCheckoutModal(); // Xử lý cho Tiền mặt hoặc Thẻ
-                }
-              }}
-            >
-              Thanh toán (
-              {paymentMethod === "Cash"
-                ? "Tiền mặt"
-                : paymentMethod === "Card"
-                ? "Thẻ"
-                : "Thẻ"}
-              )
-            </Button> */}
             <Button
               variant="primary"
               size="lg"
@@ -2343,9 +2323,10 @@ const Sell = () => {
                 ? "Tiền mặt"
                 : paymentMethod === "Card"
                   ? "Thẻ"
-                  : "Chuyển khoản"}
+                  : "Thẻ"}
               )
             </Button>
+
           </div>
         </div>
       </div>
